@@ -15,6 +15,7 @@ sys.path.append(
 )
 
 from src.gesture_engine.gesture import detect_gesture
+from src.gesture_engine.pinch import detect_pinch
 
 
 # ===============================
@@ -133,6 +134,9 @@ while True:
             gesture = detect_gesture(
                 finger_states
             )
+            pinch = detect_pinch(
+    hand_landmarks
+)
 
 
 
@@ -200,6 +204,18 @@ while True:
     (0,255,255),
     2
 )
+            
+
+
+            cv2.putText(
+                frame,
+                f"Pinch: {'YES' if pinch else 'NO'}",
+                (10,55),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (0,255,255),
+                2
+            )
             y_offset = 30
 
 
