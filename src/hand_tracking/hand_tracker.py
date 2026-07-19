@@ -1,5 +1,20 @@
 import cv2
 import mediapipe as mp
+import sys
+import os
+
+# Add project root path
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.dirname(__file__),
+            "..",
+            ".."
+        )
+    )
+)
+
+from src.gesture_engine.gesture import detect_gesture
 
 
 # ===============================
@@ -115,6 +130,9 @@ while True:
             finger_states = get_finger_states(
                 hand_landmarks
             )
+            gesture = detect_gesture(
+                finger_states
+            )
 
 
 
@@ -173,7 +191,15 @@ while True:
             # Display Finger States
             # ===============================
 
-
+            cv2.putText(
+    frame,
+    f"Gesture: {gesture}",
+    (10,25),
+    cv2.FONT_HERSHEY_SIMPLEX,
+    0.8,
+    (0,255,255),
+    2
+)
             y_offset = 30
 
 
