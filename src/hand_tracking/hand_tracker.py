@@ -21,6 +21,8 @@ from src.gesture_engine.gesture import detect_gesture
 from src.gesture_engine.pinch import detect_pinch
 from src.action_engine.action import perform_action
 from src.cursor_engine.cursor import get_cursor_position
+from src.ui.view_orb import draw_view_orb
+
 
 
 # =====================================================
@@ -173,13 +175,11 @@ while True:
             )
 
             # Draw Cursor
-            cv2.circle(
-                frame,
-                (smooth_x, smooth_y),
-                12,
-                (255, 0, 0),
-                -1
-            )
+            draw_view_orb(
+    frame,
+    smooth_x,
+    smooth_y
+)
 
             # -----------------------------------------
             # Draw Landmark Points
