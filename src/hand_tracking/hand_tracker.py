@@ -16,6 +16,7 @@ sys.path.append(
 
 from src.gesture_engine.gesture import detect_gesture
 from src.gesture_engine.pinch import detect_pinch
+from src.action_engine.action import perform_action
 
 
 # ===============================
@@ -137,6 +138,11 @@ while True:
             pinch = detect_pinch(
     hand_landmarks
 )
+            
+            action = perform_action(
+    gesture,
+    pinch
+)
 
 
 
@@ -216,6 +222,19 @@ while True:
                 (0,255,255),
                 2
             )
+
+            cv2.putText(
+    frame,
+    f"Action: {action}",
+    (10,85),
+    cv2.FONT_HERSHEY_SIMPLEX,
+    0.8,
+    (0,255,255),
+    2
+)
+
+        
+
             y_offset = 30
 
 
