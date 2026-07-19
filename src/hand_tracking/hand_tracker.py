@@ -17,6 +17,7 @@ sys.path.append(
 from src.gesture_engine.gesture import detect_gesture
 from src.gesture_engine.pinch import detect_pinch
 from src.action_engine.action import perform_action
+from src.cursor_engine.cursor import get_cursor_position
 
 
 # ===============================
@@ -128,6 +129,7 @@ while True:
             # ===============================
             # Finger Detection
             # ===============================
+            height, width, _ = frame.shape
 
             finger_states = get_finger_states(
                 hand_landmarks
@@ -143,6 +145,11 @@ while True:
     gesture,
     pinch
 )
+            cursor_x, cursor_y = get_cursor_position(
+    hand_landmarks,
+    width,
+    height
+)
 
 
 
@@ -153,6 +160,13 @@ while True:
                 hand_landmarks,
                 mp_hands.HAND_CONNECTIONS
             )
+            cv2.circle(
+    frame,
+    (cursor_x, cursor_y),
+    12,
+    (255, 0, 0),
+    -1
+)
 
 
 
@@ -230,6 +244,15 @@ while True:
     cv2.FONT_HERSHEY_SIMPLEX,
     0.8,
     (0,255,255),
+    2
+)
+            cv2.putText(
+    frame,
+    f"Cursor: ({cursor_x}, {cursor_y})",
+    (10,115),
+    cv2.FONT_HERSHEY_SIMPLEX,
+    0.7,
+    (255,255,255),
     2
 )
 
