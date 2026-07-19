@@ -178,9 +178,10 @@ while True:
             draw_view_orb(
     frame,
     smooth_x,
-    smooth_y
+    smooth_y,
+    pinch
 )
-
+            
             # -----------------------------------------
             # Draw Landmark Points
             # -----------------------------------------

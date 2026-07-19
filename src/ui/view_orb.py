@@ -1,33 +1,42 @@
 import cv2
 
 
-def draw_view_orb(frame, x, y):
+def draw_view_orb(frame, x, y, pinch=False):
 
-    # Outer glow
+    if pinch:
+        outer_radius = 28
+        inner_radius = 18
+        outer_color = (0, 255, 255)
+        inner_color = (0, 180, 255)
+    else:
+        outer_radius = 22
+        inner_radius = 14
+        outer_color = (255, 180, 0)
+        inner_color = (255, 120, 0)
+
+    # Outer Ring
     cv2.circle(
         frame,
         (x, y),
-        22,
-        (255, 180, 0),
+        outer_radius,
+        outer_color,
         2
     )
 
-    # Main orb
+    # Main Orb
     cv2.circle(
         frame,
         (x, y),
-        14,
-        (255, 120, 0),
+        inner_radius,
+        inner_color,
         -1
     )
 
-    # Inner highlight
+    # Highlight
     cv2.circle(
         frame,
-        (x - 4, y - 4),
+        (x - 5, y - 5),
         5,
         (255, 255, 255),
         -1
     )
-
-    return frame
