@@ -22,6 +22,7 @@ from src.gesture_engine.pinch import detect_pinch
 from src.action_engine.action import perform_action
 from src.cursor_engine.cursor import get_cursor_position
 from src.ui.view_orb import draw_view_orb
+from src.ui.radial_menu import draw_radial_menu
 
 
 
@@ -181,6 +182,12 @@ while True:
     smooth_y,
     pinch
 )
+            if pinch:
+             draw_radial_menu(
+        frame,
+        smooth_x,
+        smooth_y
+    )
             
             # -----------------------------------------
             # Draw Landmark Points
