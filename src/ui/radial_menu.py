@@ -10,9 +10,9 @@ MENU_ITEMS = [
 ]
 
 
-def draw_radial_menu(frame, x, y, selected=None):
+def draw_radial_menu(frame, x, y, selected=None, progress=1.0):
 
-    radius = 100
+    radius = int(100 * progress)
 
     for i, item in enumerate(MENU_ITEMS):
 

@@ -25,6 +25,7 @@ from src.ui.view_orb import draw_view_orb
 from src.ui.radial_menu import draw_radial_menu
 from src.ui.menu_selector import get_selected_menu
 from src.app_manager.app_manager import ApplicationManager
+from src.ui.menu_animation import update_menu_animation
 
 
 # =====================================================
@@ -195,6 +196,7 @@ while True:
             )
 
             selected_menu = None
+            progress = update_menu_animation(pinch)
 
             if pinch:
 
@@ -209,7 +211,8 @@ while True:
                     frame,
                     orb_x,
                     orb_y,
-                selected_menu
+                    selected_menu,
+                    progress
                 )
                 selected_menu = get_selected_menu(
                     smooth_x,
