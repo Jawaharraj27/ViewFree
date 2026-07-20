@@ -10,7 +10,7 @@ MENU_ITEMS = [
 ]
 
 
-def draw_radial_menu(frame, x, y, selected=None, progress=1.0):
+def draw_radial_menu(frame, x, y, selected=None, progress=1.0,selection_progress=0.0):
 
     radius = int(100 * progress)
 
@@ -22,16 +22,31 @@ def draw_radial_menu(frame, x, y, selected=None, progress=1.0):
         item_y = int(y + radius * math.sin(angle))
 
         if item == selected:
+
             circle_radius = 34
             fill_color = (0, 255, 0)
 
-            # Glow
             cv2.circle(
                 frame,
                 (item_x, item_y),
                 42,
                 (0, 120, 0),
                 2
+            )
+
+            end_angle = int(
+                360 * selection_progress
+            )
+
+            cv2.ellipse(
+                frame,
+                (item_x, item_y),
+                (48, 48),
+                -90,
+                0,
+                end_angle,
+                (255, 255, 255),
+                3
             )
 
         else:

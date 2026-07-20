@@ -197,6 +197,8 @@ while True:
             )
 
             selected_menu = None
+            selection_progress = 0.0
+
             progress = update_menu_animation(pinch)
 
             if pinch:
@@ -208,30 +210,21 @@ while True:
                     orb_y
                 )
 
+                opened_app, selection_progress = update_selection(
+                    selected_menu
+                )
+
+                if opened_app is not None:
+                    app_manager.switch_app(opened_app)
+
                 draw_radial_menu(
                     frame,
                     orb_x,
                     orb_y,
                     selected_menu,
-                    progress
+                    progress,
+                    selection_progress
                 )
-                selected_menu = get_selected_menu(
-                    smooth_x,
-                    smooth_y,
-                    orb_x,
-                    orb_y
-                )
-
-               
-
-            
-
-                opened_app, selection_progress = update_selection(
-                    selected_menu if pinch else None
-                )
-
-                if opened_app is not None:
-                    app_manager.switch_app(opened_app)
 
             current_app = app_manager.get_current_app()
             app_manager.render(frame)
