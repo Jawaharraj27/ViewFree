@@ -26,6 +26,7 @@ from src.ui.radial_menu import draw_radial_menu
 from src.ui.menu_selector import get_selected_menu
 from src.app_manager.app_manager import ApplicationManager
 from src.ui.menu_animation import update_menu_animation
+from src.ui.selection_progress import update_selection
 
 
 # =====================================================
@@ -225,8 +226,12 @@ while True:
 
             
 
-                if pinch and selected_menu is not None:
-                    app_manager.switch_app(selected_menu)
+                opened_app, selection_progress = update_selection(
+                    selected_menu if pinch else None
+                )
+
+                if opened_app is not None:
+                    app_manager.switch_app(opened_app)
 
             current_app = app_manager.get_current_app()
             app_manager.render(frame)
