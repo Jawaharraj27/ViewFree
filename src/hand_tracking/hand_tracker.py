@@ -24,8 +24,7 @@ from src.cursor_engine.cursor import get_cursor_position
 from src.ui.view_orb import draw_view_orb
 from src.ui.radial_menu import draw_radial_menu
 from src.ui.menu_selector import get_selected_menu
-
-
+from src.app_manager.app_manager import ApplicationManager
 
 
 # =====================================================
@@ -76,6 +75,9 @@ def get_finger_states(hand_landmarks):
 # =====================================================
 
 camera = cv2.VideoCapture(0)
+
+# Application Manager
+app_manager = ApplicationManager()
 
 # Cursor smoothing
 smooth_x = 0
@@ -177,20 +179,55 @@ while True:
                 mp_hands.HAND_CONNECTIONS
             )
 
-            # Draw Cursor
+            # -----------------------------------------
+            # Draw Cursor / Orb
+            # -----------------------------------------
+
+            # Fixed View Orb Position
+            orb_x = width // 2
+            orb_y = height // 2
+
             draw_view_orb(
-    frame,
-    smooth_x,
-    smooth_y,
-    pinch
-)
+                frame,
+                orb_x,
+                orb_y,
+                pinch
+            )
+
+            selected_menu = None
+
             if pinch:
-             draw_radial_menu(
-        frame,
-        smooth_x,
-        smooth_y
-    )
+
+                selected_menu = get_selected_menu(
+                    smooth_x,
+                    smooth_y,
+                    orb_x,
+                    orb_y
+                )
+
+                draw_radial_menu(
+                    frame,
+                    orb_x,
+                    orb_y,
+                selected_menu
+                )
+                selected_menu = get_selected_menu(
+                    smooth_x,
+                    smooth_y,
+                    orb_x,
+                    orb_y
+                )
+
+               
+
             
+
+                if pinch and selected_menu is not None:
+                    app_manager.switch_app(selected_menu)
+
+            current_app = app_manager.get_current_app()
+            app_manager.render(frame)
+
             # -----------------------------------------
             # Draw Landmark Points
             # -----------------------------------------
@@ -264,11 +301,21 @@ while True:
                 2
             )
 
+            cv2.putText(
+                frame,
+                f"App: {current_app}",
+                (10, 145),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (0, 255, 0),
+                2
+            )
+
             # -----------------------------------------
             # Finger States
             # -----------------------------------------
 
-            y_offset = 150
+            y_offset = 180
 
             for finger, state in finger_states.items():
 
