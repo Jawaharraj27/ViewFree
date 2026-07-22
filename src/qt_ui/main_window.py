@@ -1,6 +1,9 @@
 import sys
 import os
 
+# ---------------------------------
+# Add project root
+# ---------------------------------
 sys.path.append(
     os.path.abspath(
         os.path.join(
@@ -13,11 +16,12 @@ sys.path.append(
 
 from PySide6.QtWidgets import (
     QApplication,
-    QWidget
+    QWidget,
+    QVBoxLayout,
 )
 
-from src.qt_ui.camera_widget import CameraWidget
 from src.qt_ui.glass_window import GlassWindow
+from src.qt_ui.camera_widget import CameraWidget
 
 
 class ViewFreeWindow(QWidget):
@@ -26,8 +30,7 @@ class ViewFreeWindow(QWidget):
         super().__init__()
 
         self.setWindowTitle("ViewFree OS")
-
-        self.resize(1600, 900)
+        self.resize(1400, 900)
 
         self.setStyleSheet("""
             QWidget{
@@ -35,23 +38,19 @@ class ViewFreeWindow(QWidget):
             }
         """)
 
-        # -----------------------
-        # Full Screen Camera
-        # -----------------------
+        layout = QVBoxLayout(self)
 
-        self.camera = CameraWidget(self)
-        self.camera.setGeometry(0, 0, 1600, 900)
+        layout.addStretch()
 
-        # -----------------------
-        # Floating AI Window
-        # -----------------------
+        glass = GlassWindow("ViewFree Camera")
+        camera = CameraWidget()
 
-        self.ai = GlassWindow("AI Assistant")
-        self.ai.setParent(self)
+        glass.layout().addWidget(camera)
+        layout.addWidget(glass)
 
-        self.ai.move(980, 180)
+        layout.addStretch()
 
-        self.ai.raise_()
+        self.setLayout(layout)
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ class GlassWindow(QFrame):
     def __init__(self, title="Window"):
         super().__init__()
 
-        self.setFixedSize(500, 320)
+        self.setFixedSize(900, 650)
 
         self.setStyleSheet("""
             QFrame{
